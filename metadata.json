@@ -1,0 +1,6 @@
+{
+  "name": "दुकान साथी ERP - Billing & Stock",
+  "description": "Smart Billing, Inventory Stock Management, Udhar Khata & POS ERP for retail shops and kirana businesses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

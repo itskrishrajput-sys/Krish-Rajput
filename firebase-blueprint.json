@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product item in stock",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "sku": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 100 },
+        "stock": { "type": "number" },
+        "minimum_stock": { "type": "number" },
+        "bin": { "type": "string", "maxLength": 100 },
+        "rate": { "type": "number" },
+        "costPrice": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["Healthy", "Low Stock", "Out of Stock"] },
+        "barcode": { "type": "string", "maxLength": 100 },
+        "created_at": { "type": "number" },
+        "updated_at": { "type": "number" }
+      },
+      "required": ["id", "name", "sku", "category", "stock", "rate"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Completed invoice / sale transaction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "billNo": { "type": "string", "maxLength": 50 },
+        "timestamp": { "type": "number" },
+        "customerName": { "type": "string", "maxLength": 150 },
+        "customerPhone": { "type": "string", "maxLength": 30 },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "discountAmount": { "type": "number" },
+        "taxAmount": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "paymentMode": { "type": "string", "enum": ["Cash", "UPI", "Udhar", "Split"] },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "note": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "billNo", "timestamp", "items", "grandTotal", "paymentMode"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer Udhar Khata ledger account",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 300 },
+        "totalUdhar": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "history": { "type": "array" }
+      },
+      "required": ["id", "name", "phone", "totalUdhar"]
+    },
+    "ShopSettings": {
+      "title": "ShopSettings",
+      "description": "Store configuration and security settings",
+      "type": "object",
+      "properties": {
+        "shopName": { "type": "string", "maxLength": 150 },
+        "shopkeeperName": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "address": { "type": "string", "maxLength": 300 },
+        "gstin": { "type": "string", "maxLength": 50 },
+        "upiId": { "type": "string", "maxLength": 100 },
+        "upiPayeeName": { "type": "string", "maxLength": 150 },
+        "profilePhoto": { "type": "string" },
+        "qrCodeImage": { "type": "string" },
+        "enableSoundbox": { "type": "boolean" },
+        "soundboxVoice": { "type": "string", "enum": ["hi", "en"] },
+        "language": { "type": "string", "enum": ["hi", "en"] },
+        "receiptFooterNote": { "type": "string", "maxLength": 300 },
+        "defaultLowStockThreshold": { "type": "number" },
+        "billPrefix": { "type": "string", "maxLength": 20 },
+        "defaultGstPercent": { "type": "number" },
+        "allowDiscounts": { "type": "boolean" },
+        "receiptPaperSize": { "type": "string", "enum": ["58mm", "80mm", "A4"] },
+        "security": { "type": "object" }
+      },
+      "required": ["shopName"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Inventory product catalog items"
+    },
+    "/sales/{saleId}": {
+      "schema": { "$ref": "#/entities/Sale" },
+      "description": "Store sales invoices"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Customer Khata accounts and history"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/ShopSettings" },
+      "description": "Shop profile and operational settings"
+    }
+  }
+}
